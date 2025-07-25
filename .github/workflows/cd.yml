@@ -28,3 +28,5 @@ jobs:
         run: |
           docker build -t $DOCKERHUB_USERNAME/frontend-app ./frontend
           docker push $DOCKERHUB_USERNAME/frontend-app
+#####ADDED VARIABLES FOR DOCKERHUB_USERNAME AND DOCKERHUB_TOKEN
+      
