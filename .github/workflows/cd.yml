@@ -16,17 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      #  Debug step: verify that DOCKERHUB_USERNAME is passed
+      - name: Debug DockerHub username
+        run: echo "DockerHub user: $DOCKERHUB_USERNAME"
+
       - name: Log in to Docker Hub
         run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
 
       - name: Build and push backend image
         run: |
           docker build -t $DOCKERHUB_USERNAME/backend-app ./backend
-          docker push $DOCKERHUB_USERNAME/backend-app
-
-      - name: Build and push frontend image
-        run: |
-          docker build -t $DOCKERHUB_USERNAME/frontend-app ./frontend
-          docker push $DOCKERHUB_USERNAME/frontend-app
-#####ADDED VARIABLES FOR DOCKERHUB_USERNAME AND DOCKERHUB_TOKEN
-      
