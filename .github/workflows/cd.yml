@@ -1,0 +1,30 @@
+name: CD - Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-images:
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${DOCKERHUB_TOKEN}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+
+      - name: Build and push backend image
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/backend-app ./backend
+          docker push $DOCKERHUB_USERNAME/backend-app
+
+      - name: Build and push frontend image
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/frontend-app ./frontend
+          docker push $DOCKERHUB_USERNAME/frontend-app
